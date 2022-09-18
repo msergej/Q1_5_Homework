@@ -1,6 +1,8 @@
 # C# compilator folders
 bin/
 obj/
+.vscode/
+*.csproj
 
 # Prerequisites
 *.d
