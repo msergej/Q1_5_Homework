@@ -6,14 +6,14 @@
 
           // Практическое задание к семинарам, урок 2 (19.09.22)
 Seminar_2_Task_15();
-Seminar_2_Task_13();
-Seminar_2_Task_11();
+// Seminar_2_Task_13();
+// Seminar_2_Task_11();
 
 static void Seminar_2_Task_15() {
           // Задача 15:  Напишите программу, которая принимает на вход цифру, обозначающую день недели, и проверяет,
           //  является ли этот день выходным.
-    Console.WriteLine("Введите номер дня недели:");
-    int Num = Convert.ToInt16(Console.ReadLine()) % 7;
+    Console.WriteLine("Введите номер дня недели от 1 до 7:");
+    int Num = Convert.ToInt16(Console.ReadLine());
     if (Num >= 6) Console.WriteLine($"{Num}-й день недели - это выходной!");
         else Console.WriteLine($"{Num}-й день недели - это рабочий день.");
     Console.WriteLine("- - - - - - - Задача 15 успешно выполнена! - - - - - - -\n");
