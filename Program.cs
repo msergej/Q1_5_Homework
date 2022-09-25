@@ -1,7 +1,8 @@
 ﻿          // Выполнение практических задааний к семинарам
 
           // Практическое задание к семинарам, урок 3 (22.09.22)
-Seminar_3_Task_DS01();
+Seminar_3_Task_DS02_03();
+// Seminar_3_Task_DS01();
 // Seminar_3_Task_D04();
 // Seminar_3_Task_D03();
 // Seminar_3_Task_D02();
@@ -11,8 +12,51 @@ Seminar_3_Task_DS01();
 // Seminar_3_Task_19();  
 
 
+static void Seminar_3_Task_DS02_03() {
+          // Задачи DS02_03. Даны 4 точки a, b, c, d. Пересекаются ли вектора AB и CD?
+          // Найти в какой четверти лежит точка пересечения из задачи 2 (если вектора пересекаются).
+    double K1, K2, B1, B2, CrossX, CrossY;
+    Random RundNum = new Random();
+    double Ax = RundNum.Next(-100, 101);
+    double Ay = RundNum.Next(-100, 101);
+    double Bx = RundNum.Next(-100, 101);
+    double By = RundNum.Next(-100, 101);
+    double Cx = RundNum.Next(-100, 101);
+    double Cy = RundNum.Next(-100, 101);
+    double Dx = RundNum.Next(-100, 101);
+    double Dy = RundNum.Next(-100, 101);
+
+          // Получение уравнений векторов
+    K1 = (Ay - By) / (Ax - Bx);
+    B1 = By - K1 * Bx;
+    K2 = (Cy - Dy) / (Cx - Dx);
+    B2 = Dy - K2 * Dx;
+    Console.WriteLine($"Точки первого вектора: A({Ax}, {Ay}), B({Bx}, {By})");
+    Console.WriteLine($"Уравнение первого вектора: Y = {K1}*X + {B1}");
+    Console.WriteLine($"Точки второго вектора: C({Cx}, {Cy}), D({Dx}, {Dy})");
+    Console.WriteLine($"Уравнение второго вектора: Y = {K2}*X + {B2}");
+          // Нахождение точки пересечения прямых, пересечения векторов и четверти, в которой находится точка пересечения
+    if (K1 != K2) {
+        Console.WriteLine($"Прямые, содержащие векторы AB и CD, пересекаются.");
+        CrossX = (B2 - B1) / (K1 - K2);
+        Console.WriteLine($"Точка пересечения по оси абсцисс: {CrossX}");
+          // Опредение принадлежности векторам точки пересечения прямых
+        if (((CrossX < Math.Max(Ax, Bx)) & (CrossX > Math.Min(Ax, Bx))) & ((CrossX < Math.Max(Cx, Dx)) & (CrossX > Math.Min(Cx, Dx)))) {   
+            CrossY = K1 * CrossX + B1;
+            Console.WriteLine($"Векторы AB и СВ пересекаются в точке: E({CrossX}, {CrossY}).");
+            if ((CrossX > 0) & (CrossY > 0)) Console.WriteLine("Точка пересечения находится в четверти 1.");
+              else if ((CrossX < 0) & (CrossY > 0)) Console.WriteLine("Точка пересечения находится в четверти 2.");
+                     else if ((CrossX < 0) & (CrossY < 0)) Console.WriteLine("Точка пересечения находится в четверти 3.");
+                            else if ((CrossX > 0) & (CrossY < 0)) Console.WriteLine("Точка пересечения находится в четверти 4.");
+                                   else Console.WriteLine("Точка пересечения находится находится на одной из осей координат.");
+        } 
+          else Console.WriteLine($"Векторы AB и СВ не пересекаются.");
+    } 
+      else Console.WriteLine($"Прямые, содержащие векторы AB и CD, не пересекаются.");
+    Console.WriteLine("- - - - - - - Задачи DS02_03 успешно выполнены! - - - - - - -\n");
+}
 static void Seminar_3_Task_DS01() {
-          // Задача DS01: На ввод подаётся номер четверти. Создаются 3 случайные точки в этой четверти. Определите самый оптимальный маршрут для торгового менеджера, который выезжает из центра координат.
+          // Задача DS01: На ввод подаётся номер четверти. Создаются 3 случайные точки в этой четверти.
           // Определите самый оптимальный маршрут для торгового менеджера, который выезжает из центра координат.
     int Ax, Ay, Bx, By, Cx, Cy, i;
           // Определение уникальных (без учета направления) маршрутов
@@ -173,7 +217,7 @@ static void Seminar_3_Task_19() {
         else Console.WriteLine($"Введено не пятизначное число!");
     Console.WriteLine("- - - - - - - Задача 19 успешно выполнена! - - - - - - -\n");
 }
-
+/*
           // Практическое задание к семинарам, урок 2 (19.09.22)
 // Seminar_2_Task_15();
 // Seminar_2_Task_13();
@@ -213,7 +257,7 @@ static void Seminar_2_Task_11() {
     } else Console.WriteLine("Введенное число не трехзначное!");
     Console.WriteLine("- - - - - - - Задача 11 успешно выполнена! - - - - - - -\n");
 }
-
+*/
 /*
           //  Урок 1, задача 8
           //  Напишите программу, которая на вход принимает число (N > 0), а на выходе показывает все чётные числа от 1 до N:
