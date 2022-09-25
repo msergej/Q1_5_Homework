@@ -1,9 +1,51 @@
 ﻿          // Выполнение практических задааний к семинарам
 
           // Практическое задание к семинарам, урок 3 (22.09.22)
-// Seminar_2_Task_09();
-Seminar_3_Task_19();  
+Seminar_3_Task_23();
+// Seminar_3_Task_21();
+// Seminar_3_Task_19();  
 
+static void Seminar_3_Task_23() {
+          // Задача 23: Напишите программу, которая принимает на вход число (N) и выдаёт таблицу кубов чисел от 1 до N.
+    Random RundNum = new Random();
+    int Num = RundNum.Next(1, 100);
+    string ResultStr = "";
+    int i = 0;
+          // Вывод кубов чисел по 10 в строке
+    Console.WriteLine($"Кубы чисел от 0 до {Num}:");
+          // Обработка полных десятков в цикле WHILE
+    while (i < Num / 10) {
+        ResultStr = "";
+        for (int j=0; j<10; j++) {
+            ResultStr = ResultStr.Insert(ResultStr.Length, Convert.ToString(Math.Pow((i*10+j),3)));
+            ResultStr = ResultStr.PadRight(8*(j+1));       // дополняем строу пробелами справа до следующего числа
+        }
+        Console.WriteLine(ResultStr);
+        i = i + 1;
+    }     // Дообработка неполного десятка в цикле FOR (используется I от цикла WHILE) и вывод после цикла
+    ResultStr = "";
+    for (int j=0; j<=Num%10; j++) {
+        ResultStr = ResultStr.Insert(ResultStr.Length, Convert.ToString(Math.Pow((i*10+j),3)));
+        ResultStr = ResultStr.PadRight(8*(j+1));       // дополняем строу пробелами справа до следующего числа
+    }
+    Console.WriteLine(ResultStr);
+    Console.WriteLine("- - - - - - - Задача 23 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_3_Task_21() {
+          // Задача 21: Напишите программу, которая принимает на вход координаты двух точек
+          // и находит расстояние между ними в 3D пространстве.
+    Random RundNum = new Random();
+    int Ax = RundNum.Next(-100, 101);
+    int Ay = RundNum.Next(-100, 101);
+    int Az = RundNum.Next(-100, 101);
+    int Bx = RundNum.Next(-100, 101);
+    int By = RundNum.Next(-100, 101);
+    int Bz = RundNum.Next(-100, 101);
+
+    Console.WriteLine($"Точки: A({Ax}, {Ay}, {Az}), B({Bx}, {By}, {Bz})");
+    Console.WriteLine($"Расстояние между точками А и В: {Math.Sqrt(Math.Pow((Bx-Ax),2) + Math.Pow((By-Ay),2) + Math.Pow((Bz-Az),2))}");
+    Console.WriteLine("- - - - - - - Задача 21 успешно выполнена! - - - - - - -\n");
+}
 static void Seminar_3_Task_19() {
           // Задача 19: Напишите программу, которая принимает на вход пятизначное число и проверяет,
           // является ли оно палиндромом (например, 12321).
