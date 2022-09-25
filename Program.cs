@@ -1,10 +1,49 @@
 ﻿          // Выполнение практических задааний к семинарам
 
           // Практическое задание к семинарам, урок 3 (22.09.22)
-Seminar_3_Task_23();
+Seminar_3_Task_D03();
+// Seminar_3_Task_D02();
+// Seminar_3_Task_D01();
+// Seminar_3_Task_23();
 // Seminar_3_Task_21();
 // Seminar_3_Task_19();  
 
+
+static void Seminar_3_Task_D03() {
+          // Дополнительная задача 03: Дано трёхзначное число N. Определить, есть ли среди его цифр 4 или 7.
+    Console.WriteLine("Введите трехзначное число:");
+    int Num = Convert.ToInt16(Console.ReadLine());
+    int AbsNum = Math.Abs(Num);
+    if ((AbsNum >= 100) && (AbsNum < 1000)) {
+        if ((((AbsNum % 10) == 4) | ((AbsNum % 10) == 7)) | ((((AbsNum / 10) % 10) == 4) |
+           (((AbsNum / 10) % 10) == 7)) | (((AbsNum / 10) == 4) | ((AbsNum / 10) == 7)))
+        {
+            Console.WriteLine($"Цифры 4 или 7 встречаются в числе {Num}.");
+        } 
+            else Console.WriteLine($"В числе {Num} цифры 4 и 7 не встречаются.");
+    }   else Console.WriteLine("Введенное число не трехзначное!");
+    Console.WriteLine("- - - - - - - Задача D03 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_3_Task_D02() {
+          // Дополнительная задача 02: Дано трёхзначное число N. Определить кратна ли трём сумма всех его цифр.
+    Console.WriteLine("Введите трехзначное число:");
+    int Num = Convert.ToInt16(Console.ReadLine());
+    if ((Math.Abs(Num) >= 100) && (Math.Abs(Num) < 1000)) {
+          // Если сумма цифр числа кратна трем, то и число кратно трем; также верно обратное утверждение.
+        if ((Num % 3) == 0) Console.WriteLine($"Сумма цифр числа {Num} кратна трем.");
+            else Console.WriteLine($"Сумма цифр числа {Num} не кратна трем.");
+    }   else Console.WriteLine("Введенное число не трехзначное!");
+    Console.WriteLine("- - - - - - - Задача D02 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_3_Task_D01() {
+          // Дополнительная задача 01: Рассчитать значение Y при заданном X по формуле
+          // при x>0: sin^2(x), иначе(1- 2*sin(x^2)).
+    Random RundNum = new Random();
+    double X = Convert.ToDouble(RundNum.Next(-100000, 100000)) / 10000;
+    if (X > 0) Console.WriteLine($"При X = {X} Y = sin^2(x) = {Math.Pow(Math.Sin(X),2)}.");
+        else Console.WriteLine($"При X = {X} Y = (1-2*sin(x^2)) = {1-2*Math.Sin(Math.Pow(X,2))}.");
+    Console.WriteLine("- - - - - - - Задача D01 успешно выполнена! - - - - - - -\n");
+}
 static void Seminar_3_Task_23() {
           // Задача 23: Напишите программу, которая принимает на вход число (N) и выдаёт таблицу кубов чисел от 1 до N.
     Random RundNum = new Random();
