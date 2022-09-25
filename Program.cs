@@ -1,7 +1,9 @@
 ﻿          // Выполнение практических задааний к семинарам
 
           // Практическое задание к семинарам, урок 3 (22.09.22)
-Seminar_3_Task_D03();
+Seminar_3_Task_DS01();
+// Seminar_3_Task_D04();
+// Seminar_3_Task_D03();
 // Seminar_3_Task_D02();
 // Seminar_3_Task_D01();
 // Seminar_3_Task_23();
@@ -9,19 +11,94 @@ Seminar_3_Task_D03();
 // Seminar_3_Task_19();  
 
 
+static void Seminar_3_Task_DS01() {
+          // Задача DS01: На ввод подаётся номер четверти. Создаются 3 случайные точки в этой четверти. Определите самый оптимальный маршрут для торгового менеджера, который выезжает из центра координат.
+          // Определите самый оптимальный маршрут для торгового менеджера, который выезжает из центра координат.
+    int Ax, Ay, Bx, By, Cx, Cy, i;
+          // Определение уникальных (без учета направления) маршрутов
+    string[] Routes ={"0-A-B-C-0", "0-A-C-B-0", "0-B-A-C-0"};
+    int[] RouteNumbers ={0,1,2};
+    double ShortestRoute, NextRoute;
+    Random RundNum = new Random();
+
+          // Выбор номера четверти и координатов точек 
+    int Q = RundNum.Next(1, 5);
+    if (Q == 1) {
+        Ax = RundNum.Next(1, 11);
+        Ay = RundNum.Next(1, 11);
+        Bx = RundNum.Next(1, 11);
+        By = RundNum.Next(1, 11);
+        Cx = RundNum.Next(1, 11);
+        Cy = RundNum.Next(1, 11);
+    }
+      else if (Q == 2) {
+               Ax = RundNum.Next(-10, 0);
+               Ay = RundNum.Next(1, 11);
+               Bx = RundNum.Next(-10, 0);
+               By = RundNum.Next(1, 11);
+               Cx = RundNum.Next(-10, 0);
+               Cy = RundNum.Next(1, 11);
+           }
+             else if (Q == 3) {
+                      Ax = RundNum.Next(-10, 0);
+                      Ay = RundNum.Next(-10, 0);
+                      Bx = RundNum.Next(-10, 0);
+                      By = RundNum.Next(-10, 0);
+                      Cx = RundNum.Next(-10, 0);
+                      Cy = RundNum.Next(-10, 0);
+                  }
+                    else { Ax = RundNum.Next(1, 11);
+                           Ay = RundNum.Next(-10, 0);
+                           Bx = RundNum.Next(1, 11);
+                           By = RundNum.Next(-10, 0);
+                           Cx = RundNum.Next(1, 11);
+                           Cy = RundNum.Next(-10, 0);
+                    }
+          // Принимаем минимальным первый маршрут: 0-A-B-C-0
+    i = 0;
+    ShortestRoute = Math.Sqrt(Math.Pow(Ax,2) + Math.Pow(Ay,2)) + Math.Sqrt(Math.Pow((Bx-Ax),2) + Math.Pow((By-Ay),2)) +
+                    Math.Sqrt(Math.Pow((Cx-Bx),2) + Math.Pow((Cy-By),2)) + Math.Sqrt(Math.Pow(Cx,2) + Math.Pow(Cy,2));
+          // Проверяем второй маршрут: 0-A-C-B-0, и заменяем кратчайший, а также его номер
+    NextRoute = Math.Sqrt(Math.Pow(Ax,2) + Math.Pow(Ay,2)) + Math.Sqrt(Math.Pow((Cx-Ax),2) + Math.Pow((Cy-Ay),2)) +
+                Math.Sqrt(Math.Pow((Ax-Bx),2) + Math.Pow((Ay-By),2)) + Math.Sqrt(Math.Pow(Bx,2) + Math.Pow(By,2));
+    if (NextRoute < ShortestRoute) {
+        ShortestRoute = NextRoute; 
+        i = 1;
+    }
+          // Проверяем третий маршрут: 0-B-A-C-0, и заменяем кратчайший, а также его номер
+    NextRoute = Math.Sqrt(Math.Pow(Bx,2) + Math.Pow(By,2)) + Math.Sqrt(Math.Pow((Ax-Bx),2) + Math.Pow((Ay-By),2)) +
+                Math.Sqrt(Math.Pow((Cx-Ax),2) + Math.Pow((Cy-Ay),2)) + Math.Sqrt(Math.Pow(Cx,2) + Math.Pow(Cy,2));
+    if (NextRoute < ShortestRoute) {
+        ShortestRoute = NextRoute; 
+        i = 2;
+    }
+    Console.WriteLine($"Выбрана четветь: {Q}.");
+    Console.WriteLine($"Отмечены точки: A({Ax}, {Ay}), B({Bx}, {By}), C({Cx}, {Cy}).");
+    Console.WriteLine($"Кратчайший маршрут: {Routes[i]} ({ShortestRoute}).");
+    Console.WriteLine("- - - - - - - Задача DS01 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_3_Task_D04() {
+          // Дополнительная задача 04: Дан массив длиной 10 элементов. Заполнить его последовательно числами от 1 до 10.
+    int[] mas = new int[10];
+    Random RundNum = new Random();
+    
+    for (int i=0; i<10; i++) mas[i] = RundNum.Next(1, 11);
+    Console.WriteLine($"Заполненный массив: {mas[0]}, {mas[1]}, {mas[2]}, {mas[3]}, {mas[4]}, {mas[5]}, {mas[6]}, {mas[7]}, {mas[8]}, {mas[9]}.");
+    Console.WriteLine("- - - - - - - Задача D04 успешно выполнена! - - - - - - -\n");
+}
 static void Seminar_3_Task_D03() {
           // Дополнительная задача 03: Дано трёхзначное число N. Определить, есть ли среди его цифр 4 или 7.
     Console.WriteLine("Введите трехзначное число:");
     int Num = Convert.ToInt16(Console.ReadLine());
     int AbsNum = Math.Abs(Num);
-    if ((AbsNum >= 100) && (AbsNum < 1000)) {
+    if ((AbsNum >= 100) && (AbsNum < 1000)) 
         if ((((AbsNum % 10) == 4) | ((AbsNum % 10) == 7)) | ((((AbsNum / 10) % 10) == 4) |
            (((AbsNum / 10) % 10) == 7)) | (((AbsNum / 10) == 4) | ((AbsNum / 10) == 7)))
         {
             Console.WriteLine($"Цифры 4 или 7 встречаются в числе {Num}.");
         } 
-            else Console.WriteLine($"В числе {Num} цифры 4 и 7 не встречаются.");
-    }   else Console.WriteLine("Введенное число не трехзначное!");
+          else Console.WriteLine($"В числе {Num} цифры 4 и 7 не встречаются.");
+      else Console.WriteLine("Введенное число не трехзначное!");
     Console.WriteLine("- - - - - - - Задача D03 успешно выполнена! - - - - - - -\n");
 }
 static void Seminar_3_Task_D02() {
