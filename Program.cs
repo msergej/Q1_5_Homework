@@ -1,7 +1,216 @@
 ﻿          // Выполнение практических задааний к семинарам
 
-          // Практическое задание к семинарам, урок 3 (22.09.22)
-Seminar_3_Task_DS02_03();
+          // Практическое задание к семинарам, урок 4 (26.09.22)
+Seminar_4_Task_D03();
+// Seminar_4_Task_D02();
+// Seminar_4_Task_D01();
+// Seminar_4_Task_29();
+// Seminar_4_Task_27();
+// Seminar_4_Task_25();
+
+static void Seminar_4_Task_D03() {
+          // Доп. задача 03: Массив на 100 элементов задаётся случайными числами от 1 до 99.
+          // Определите самый часто встречающийся элемент в массиве. Если таких элементов несколько, вывести их все.
+    int Size = 100;
+    int[,] Mas= new int[2, Size];
+           // Подготовка массива
+    Seminar_4_Task_D03_FillArray(Mas, 0);
+    Seminar_4_Task_D03_PrintArray(Mas);
+    Console.WriteLine();
+           // Сортировка элементов первой строки массива
+    int Tmp1, Tmp2;
+    for(int i=0; i<Size; i++)
+        for(int j=0; j<Size-1-i; j++)
+            if (Mas[0,j] > Mas[0,j+1]) {
+                Tmp1 = Mas[0,j];
+                Mas[0,j] = Mas[0,j+1];
+                Mas[0,j+1] = Tmp1;
+            }  
+           // Подсчет количства элментов в сортированной строке массива и запись результатов во вторую строку
+    int Duplicates = 1;
+    int k = 0;
+    while (k < Size) {
+        for(int j=k+1; j<Size; j++)
+            if (Mas[0,k] == Mas[0,j]) {
+                k++;
+                Duplicates++;
+            }
+        Mas[1,k-Duplicates+1] = Duplicates;
+        k++;
+        Duplicates = 1;
+    }
+    Seminar_4_Task_D03_PrintArray(Mas);
+    Console.WriteLine();
+           // Обратная сортировка массива по второй строке
+    for(int i=0; i<Size; i++)
+        for(int j=0; j<Size-1-i; j++)
+            if (Mas[1,j] < Mas[1,j+1]) {
+                Tmp1 = Mas[0,j];
+                Mas[0,j] = Mas[0,j+1];
+                Mas[0,j+1] = Tmp1;
+                Tmp2 = Mas[1,j];
+                Mas[1,j] = Mas[1,j+1];
+                Mas[1,j+1] = Tmp2;
+            }  
+    Seminar_4_Task_D03_PrintArray(Mas);
+    Console.WriteLine();
+          // Вывод самых часто встречающихся элементов
+    int MostOftenElements = Mas[1,0];
+    k=1;
+    while (Mas[1,k] == MostOftenElements) k++;
+    Console.WriteLine($"Наиболее часто (по {Mas[1,k-1]}) повторяющиеся элементы:");
+    for(int i=0;i<k; i++) Console.Write(Mas[0,i] + " ");
+    Console.WriteLine(""); 
+
+    Console.WriteLine("- - - - - - - Задача D03 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_4_Task_D03_FillArray(int[,] Mas, int row) {
+          // Задача D03. Подпрограмма заполнения указанной строки массива.
+    Random RundNum = new Random();
+//    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+//    for(int i=0; i<rows; i++) 
+    for(int j=0; j<columns; j++) Mas[row,j] = RundNum.Next(1,100);
+}
+static void Seminar_4_Task_D03_PrintArray(int[,] Mas) {
+          // Задача D03. Подпрограмма печати массива.
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) 
+            if (Mas[i,j] < 10) Console.Write(Mas[i,j] + "  ");    
+              else Console.Write(Mas[i,j] + " ");
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_4_Task_D02() {
+          // Доп. задача 02: Напишите метод, который заполняет массив случайным количеством (от 1 до 100) нулей и единиц.
+          // Размер массива должен совпадать с квадратом количества единиц в нём.
+    Random RundNum = new Random();
+    int Size = RundNum.Next(1,17);
+    int[,] Mas= new int[Size, Size];
+    
+    for(int i=0; i<Size; i++) {
+        int Column = RundNum.Next(0,Size);
+        Mas[i, Column] = 1;
+    }
+    Seminar_4_Task_D02_PrintArray(Mas);
+
+    Console.WriteLine("- - - - - - - Задача D02 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_4_Task_D02_PrintArray(int[,] Mas) {
+          // Задача D02. Подпрограмма печати массива.
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_4_Task_D01() {
+          // Доп. задача 01: На вход подаётся натуральное десятичное число.
+          // Проверьте, является ли оно палиндромом в двоичной записи.
+    Random RundNum = new Random();
+    int Num10 = RundNum.Next(1,100001);
+    long Num2 = Seminar_4_Task_D01_Convert_10_to_2(Num10);
+    Console.WriteLine($"{Num10} в двоичном коде: {Num2}.");
+    bool Num10_Polyndrom = Seminar_4_Task_D01_PalindromityCheck(Num10);
+    bool Num2_Polyndrom = Seminar_4_Task_D01_PalindromityCheck(Num2);
+    if (Num10_Polyndrom & Num2_Polyndrom) Console.WriteLine($"{Num10} является палиндромом и в десятичном и в двоичном кодах ({Num2}).");
+      else if (Num10_Polyndrom)  Console.WriteLine($"{Num10} является палиндромом только в десятичном коде.");
+             else if (Num10_Polyndrom) Console.WriteLine($"{Num10} является палиндромом только в двоичном коде ({Num2}).");
+                    else Console.WriteLine($"{Num10} не является палиндромом ни в десятичном ни в двоичном кодах ({Num2}).");
+
+    Console.WriteLine("- - - - - - - Задача D01 успешно выполнена! - - - - - - -\n");
+}
+static bool Seminar_4_Task_D01_PalindromityCheck(long Num) {
+          // Задача D01. Подпрограмма проверки числа на палиндромность (например, 12321).
+    string NumStr = Convert.ToString(Num);
+          // Первоначально предполагаем, что число является палиндромом, пока не найдем исключение
+    bool Palindromity = true;
+    for(int i=0; i < NumStr.Length/2; i++)
+        if (NumStr[i] != NumStr[NumStr.Length-1-i]) return false;
+    return Palindromity;
+} 
+static long Seminar_4_Task_D01_Convert_10_to_2(int Num10) {
+          // Задача D01. Подпрограмма перевода десятичного числа в двоичное.
+    double Num2 = 0;
+    double i = 0;
+    while (Num10 > 0) {
+        Num2 = (Num10 % 2)*Math.Pow(10,i) + Num2;
+        Num10 /= 2;
+        i += 1;     
+    }
+    return Convert.ToInt64(Num2);
+} 
+static void Seminar_4_Task_29() {
+          // Задача 29: Напишите программу, которая задаёт массив из 8 случайных целых чисел и
+          // выводит отсортированный по модулю массив.
+    Random RundNum = new Random();
+    int MasSize = RundNum.Next(6,16);
+    int[] Nums = new int[MasSize];
+    int Tmp;
+
+    Seminar_4_Task_29_FillArray(Nums);
+    Seminar_4_Task_29_PrintArray(Nums);
+    for(int i=0; i < MasSize; i++)
+        for(int j=0; j < MasSize-1-i; j++)
+            if (Math.Abs(Nums[j]) > Math.Abs(Nums[j+1])) {
+                Tmp = Nums[j];
+                Nums[j] = Nums[j+1];
+                Nums[j+1] =Tmp; 
+            }
+    Seminar_4_Task_29_PrintArray(Nums);
+
+    Console.WriteLine("- - - - - - - Задача 29 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_4_Task_29_FillArray(int[] Mas) {
+          // Задача 29. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    for (int i=0; i<Mas.Length; i++) Mas[i] = RundNum.Next(-100,100);
+}
+static void Seminar_4_Task_29_PrintArray(int[] Mas) {
+          // Задача 29. Подпрограмма печати массива
+    for (int i=0; i<Mas.Length; i++) Console.Write(Mas[i] + "\t");
+    Console.Write("\n");
+}
+static void Seminar_4_Task_27() {
+          // Задача 27: Напишите программу, которая принимает на вход число и выдаёт сумму цифр в числе.
+//    Console.WriteLine("Введите целое число:");
+//    int Num = Convert.ToInt32(Console.ReadLine());
+    Random RundNum = new Random();
+    int Num = RundNum.Next(-1000000, 1000001);
+
+    int AbsNum = Math.Abs(Num);
+    int DigitsSum = 0;
+    while (AbsNum > 0) {
+        DigitsSum += AbsNum % 10;
+        AbsNum = AbsNum / 10;
+    }
+    Console.WriteLine($"Сумма цифр числа {Num} равна: {DigitsSum}.");
+
+    Console.WriteLine("- - - - - - - Задача 27 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_4_Task_25() {
+          // Задача 25: Используя определение степени числа, напишите цикл, который принимает на вход два
+          // натуральных числа (A и B) и возводит число A в степень B.
+//    Console.WriteLine("Введите натуральное число до 100:");
+//    int Num = Convert.ToInt16(Console.ReadLine());
+//    Console.WriteLine("Введите натуральное число до 10 (показатель степени):");
+//    int Exponent = Convert.ToInt16(Console.ReadLine());
+    Random RundNum = new Random();
+    int Num = RundNum.Next(1, 101);
+    int Exponent = RundNum.Next(1, 11);
+    
+    double ExponentiatedNum = 1;
+    for(int i=1; i <= Exponent; i++) ExponentiatedNum *= Num;
+    Console.WriteLine($"Число {Num} в степени {Exponent} равно: {ExponentiatedNum}.");
+
+    Console.WriteLine("- - - - - - - Задача 25 успешно выполнена! - - - - - - -\n");
+}
+
+/*          // Практическое задание к семинарам, урок 3 (22.09.22)
+// Seminar_3_Task_DS02_03();
 // Seminar_3_Task_DS01();
 // Seminar_3_Task_D04();
 // Seminar_3_Task_D03();
@@ -9,8 +218,7 @@ Seminar_3_Task_DS02_03();
 // Seminar_3_Task_D01();
 // Seminar_3_Task_23();
 // Seminar_3_Task_21();
-// Seminar_3_Task_19();  
-
+// Seminar_3_Task_19();
 
 static void Seminar_3_Task_DS02_03() {
           // Задачи DS02_03. Даны 4 точки a, b, c, d. Пересекаются ли вектора AB и CD?
@@ -216,7 +424,8 @@ static void Seminar_3_Task_19() {
             else Console.WriteLine($"Число {Num} не является палиндромом.");
         else Console.WriteLine($"Введено не пятизначное число!");
     Console.WriteLine("- - - - - - - Задача 19 успешно выполнена! - - - - - - -\n");
-}
+} 
+*/
 /*
           // Практическое задание к семинарам, урок 2 (19.09.22)
 // Seminar_2_Task_15();
