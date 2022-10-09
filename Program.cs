@@ -1,7 +1,189 @@
 ﻿          // Выполнение практических задааний к семинарам
 
-          // Практическое задание к семинарам, урок 4 (26.09.22)
-Seminar_4_Task_D03();
+          // Практическое задание к семинарам, урок 5 (29.09.22)
+Seminar_5_Task_D03();
+// Seminar_5_Task_D02();
+// Seminar_5_Task_D01();
+// Seminar_5_Task_38();
+// Seminar_5_Task_36();
+// Seminar_5_Task_34();
+
+static void Seminar_5_Task_D03() {
+          // Задача D03: Найдите все числа от 1 до 1000000, сумма цифр которых в три раза меньше их произведений.
+          // Подсчитайте их количество.
+    int DigitSum = 0;
+    int DigitProduct = 1;
+    long TmpI;
+    int Result = 0;
+
+    for(int i=1; i<=1000000; i++) {
+        TmpI = i;  
+        while(TmpI > 0) {
+            DigitSum += Convert.ToInt16(TmpI % 10);
+            DigitProduct *= Convert.ToInt16(TmpI % 10);
+            TmpI /= 10;
+        }
+        if  (DigitSum*3 == DigitProduct) {
+            Result++;
+            Console.WriteLine(i);
+        }
+        DigitSum = 0;
+        DigitProduct = 1;
+    }
+    Console.WriteLine($"Среди натуральных до 1000000 есть {Result} чисел, у которых сумма цифр в три раза меньше их произведения.\n");
+
+    Console.WriteLine("- - - - - - - Задача D03 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_5_Task_D02() {
+          // Задача D02: На вход подаются два числа случайной длины.
+          // Найдите произведение каждого разряда первого числа на каждый разряд второго.
+          // Ответ запишите в массив: 24, 132 -> {2, 6, 4, 4, 12, 8}.
+    Random RundNum = new Random();
+    int Num1 = RundNum.Next(1,100000);
+    int Num2 = RundNum.Next(1,100000);
+    int TmpNum1 = Num1;
+    int TmpNum2 = Num2;
+    int MasSize = Convert.ToString(Num1).Length * Convert.ToString(Num2).Length;
+    int[] Result = new int[MasSize];
+    int i = MasSize-1;
+
+    while(TmpNum1 > 0) {
+        while(TmpNum2 > 0) {
+            Result[i] = (TmpNum1 % 10) * (TmpNum2 % 10);
+            TmpNum2 /= 10;
+            i--;
+        }
+        TmpNum2 = Num2;
+        TmpNum1 /= 10;
+    }
+    Console.WriteLine($"Попарные произведения всех разрядов {Num1} и {Num2}:");
+    Seminar_5_Task_D02_PrintArray(Result);
+
+    Console.WriteLine("- - - - - - - Задача D02 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_5_Task_D02_PrintArray(int[] Mas) {
+          // Задача D02. Подпрограмма печати массива
+    for (int i=0; i<Mas.Length; i++) Console.Write(Mas[i] + "  ");
+    Console.Write("\n");
+}
+static void Seminar_5_Task_D01() {
+          // Задача D01: Задан массив из случайных цифр на 15 элементов. На вход подаётся трёхзначное натуральное число.
+          // Напишите программу, которая определяет, есть ли в массиве последовательность из трёх элементов,
+          // совпадающая с введённым числом.
+    Random RundNum = new Random();
+    int ThreeDigitNum = RundNum.Next(100,1000);
+//    int ThreeDigitNum = 678;
+    int MasSize = RundNum.Next(10,16);
+    int[] Nums = new int[15];
+    bool SequenceFound = false;
+
+    Seminar_5_Task_D01_FillArray(Nums);
+    Seminar_5_Task_D01_PrintArray(Nums);
+    for(int i=0; i<MasSize-2; i++)
+        if ((Nums[i]*100 + Nums[i+1]*10 + Nums[i+2]) == ThreeDigitNum) SequenceFound = true;
+    if (SequenceFound) Console.WriteLine($"Последовательность {ThreeDigitNum} в массиве присутствует.");
+        else Console.WriteLine($"Последовательности {ThreeDigitNum} в массиве нет.");
+
+    Console.WriteLine("- - - - - - - Задача D01 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_5_Task_D01_FillArray(int[] Mas) {
+          // Задача D01. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    for (int i=0; i<Mas.Length; i++) Mas[i] = RundNum.Next(0,10);
+}
+static void Seminar_5_Task_D01_PrintArray(int[] Mas) {
+          // Задача D01. Подпрограмма печати массива
+    for (int i=0; i<Mas.Length; i++) Console.Write(Mas[i] + "\t");
+    Console.Write("\n");
+}
+static void Seminar_5_Task_38() {
+          // Задача 38: Задайте массив вещественных чисел.
+          // Найдите разницу между максимальным и минимальным элементов массива.
+    Random RundNum = new Random();
+    int MasSize = RundNum.Next(6,16);
+    double[] Nums = new double[MasSize];
+    double Tmp;
+
+    Seminar_5_Task_38_FillArray(Nums);
+    Seminar_5_Task_38_PrintArray(Nums);
+        // Сортировка массива
+    for(int i=0; i<MasSize; i++)
+        for(int j=0; j < MasSize-1-i; j++)
+            if (Nums[j] > Nums[j+1]) {
+                Tmp = Nums[j];
+                Nums[j] = Nums[j+1];
+                Nums[j+1] =Tmp; 
+            }
+    Seminar_5_Task_38_PrintArray(Nums);
+    Console.WriteLine($"Разница максимального и минимального элементов массива: {Nums[MasSize-1] - Nums[0]}.");
+
+    Console.WriteLine("- - - - - - - Задача 38 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_5_Task_38_FillArray(double[] Mas) {
+          // Задача 36. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    for (int i=0; i<Mas.Length; i++) Mas[i] = Math.Round(Convert.ToDouble(RundNum.Next(-10000,10001))/100,2);
+}
+static void Seminar_5_Task_38_PrintArray(double[] Mas) {
+          // Задача 36. Подпрограмма печати массива
+    for (int i=0; i<Mas.Length; i++) Console.Write(Mas[i] + "\t");
+    Console.Write("\n");
+}
+static void Seminar_5_Task_36() {
+          // Задача 36: Задайте одномерный массив, заполненный случайными числами.
+          // Найдите сумму элементов с нечётными индексами.
+    Random RundNum = new Random();
+    int MasSize = RundNum.Next(6,16);
+    int[] Nums = new int[MasSize];
+    int NotEvenIndexSum = 0;
+
+    Seminar_5_Task_36_FillArray(Nums);
+    Seminar_5_Task_36_PrintArray(Nums);
+    for(int i=1; i<MasSize; i=i+2)
+        NotEvenIndexSum += Nums[i];
+    Console.WriteLine($"Сумма элементов массива с нечетными индексами: {NotEvenIndexSum}.");
+
+    Console.WriteLine("- - - - - - - Задача 36 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_5_Task_36_FillArray(int[] Mas) {
+          // Задача 36. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    for (int i=0; i<Mas.Length; i++) Mas[i] = RundNum.Next(-10000,10001);
+}
+static void Seminar_5_Task_36_PrintArray(int[] Mas) {
+          // Задача 36. Подпрограмма печати массива
+    for (int i=0; i<Mas.Length; i++) Console.Write(Mas[i] + "\t");
+    Console.Write("\n");
+}
+static void Seminar_5_Task_34() {
+          // Задача 34: Задайте массив заполненный случайными положительными трёхзначными числами.
+          // Напишите программу, которая покажет количество чётных чисел в массиве.
+    Random RundNum = new Random();
+    int MasSize = RundNum.Next(6,16);
+    int[] Nums = new int[MasSize];
+    int EvenNumsCount = 0;
+
+    Seminar_5_Task_34_FillArray(Nums);
+    Seminar_5_Task_34_PrintArray(Nums);
+    for(int i=0; i < MasSize; i++)
+        if ((Nums[i] % 2) == 0) EvenNumsCount++;
+    Console.WriteLine($"В массиве содержится {EvenNumsCount} четных элементов.");
+
+    Console.WriteLine("- - - - - - - Задача 34 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_5_Task_34_FillArray(int[] Mas) {
+          // Задача 34. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    for (int i=0; i<Mas.Length; i++) Mas[i] = RundNum.Next(100,1001);
+}
+static void Seminar_5_Task_34_PrintArray(int[] Mas) {
+          // Задача 34. Подпрограмма печати массива
+    for (int i=0; i<Mas.Length; i++) Console.Write(Mas[i] + "\t");
+    Console.Write("\n");
+}
+
+/*          // Практическое задание к семинарам, урок 4 (26.09.22)
+// Seminar_4_Task_D03();
 // Seminar_4_Task_D02();
 // Seminar_4_Task_D01();
 // Seminar_4_Task_29();
@@ -208,7 +390,7 @@ static void Seminar_4_Task_25() {
 
     Console.WriteLine("- - - - - - - Задача 25 успешно выполнена! - - - - - - -\n");
 }
-
+*/
 /*          // Практическое задание к семинарам, урок 3 (22.09.22)
 // Seminar_3_Task_DS02_03();
 // Seminar_3_Task_DS01();
