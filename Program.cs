@@ -1,7 +1,104 @@
 ﻿          // Выполнение практических задааний к семинарам
 
-          // Практическое задание к семинарам, урок 5 (29.09.22)
-Seminar_5_Task_D03();
+          // Практическое задание к семинарам, урок 6 (03.10.22)
+Seminar_6_Task_D03();
+// Seminar_6_Task_D02();
+// Seminar_6_Task_D01();
+// Seminar_6_Task_43();
+// Seminar_6_Task_41();
+
+static void Seminar_6_Task_D03() {
+          // Задача D03: Дано число N. Используя только операцию деления и рекурсию, определите, что оно является степенью числа 3.
+    Random RundNum = new Random();
+    int N = RundNum.Next(1, 33);
+    int Basis = 3;
+
+    if (Seminar_6_Task_D03_Division(N, Basis)) Console.WriteLine($"{N} является степенью числа {Basis}.");
+      else Console.WriteLine($"{N} не является степенью числа {Basis}.");
+
+    Console.WriteLine("- - - - - - - Задача D03 успешно выполнена! - - - - - - -\n");
+}
+static bool Seminar_6_Task_D03_Division(int Num, int Basis) {
+          // Задача D03. Подпрограмма деления.
+    if ((Num % Basis) !=0) return false;
+    if (Num == Basis ) return true; 
+    Num /= Basis;    
+    return Seminar_6_Task_D03_Division(Num, Basis);
+}
+static void Seminar_6_Task_D02() {
+          // Задача D02: На вход подаётся поговорка “без труда не выловишь и рыбку из пруда”.
+          // Используя рекурсию, подсчитайте, сколько в поговорке гласных букв.
+    string Phrase = "<Без труда не выловишь и рыбку из пруда.";
+    char[] Chars = {'а', 'е', 'ё', 'и','о','у','ы','э','ю','я'};
+
+    Console.WriteLine($"В поговорке {Seminar_6_Task_D02_VowelLettres(Phrase, Chars, 0, 0)} гласных букв.");
+
+    Console.WriteLine("- - - - - - - Задача D02 успешно выполнена! - - - - - - -\n");
+}
+static int Seminar_6_Task_D02_VowelLettres(string Text, char[] VowelChars, int Count, int Index) {
+          // Задача D02. Подпрограмма поиска буквы из алфавита в тексте.
+    if (Index == Text.Length) return Count;
+    bool contain = VowelChars.Contains(Text[Index]);
+    if (contain) Count++;
+    Index++;
+    return Seminar_6_Task_D02_VowelLettres(Text, VowelChars, Count, Index);
+}
+static void Seminar_6_Task_D01() {
+          // Задача D01: Написать перевод десятичного числа в двоичное, используя рекурсию.
+    Random RundNum = new Random();
+    int Num10 = RundNum.Next(0, 10001);
+
+    Console.Write($"{Num10} в двоичной системе счисления: ");
+    Seminar_5_Task_D01_Convert_10_to_2(Num10, 0, 0);
+
+    Console.WriteLine("- - - - - - - Задача D01 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_5_Task_D01_Convert_10_to_2(int Num, double Result=0, double i =0) {
+          // Задача D01. Рекурсивная подпрограмма перевода десятичного числа в двоичное.
+    if(Num == 0) {
+        Console.WriteLine(Result);
+        return;
+    }
+    Result += (Num % 2)*Math.Pow(10,i);
+    Num /= 2;
+    i += 1;
+    Seminar_5_Task_D01_Convert_10_to_2(Num, Result, i);
+}
+static void Seminar_6_Task_43() {
+          // Задача 43: Напишите программу, которая найдёт точку пересечения двух прямых,
+          // заданных уравнениями y = k1 * x + b1, y = k2 * x + b2;
+          // значения b1, k1, b2 и k2 задаются пользователем: b1 = 2, k1 = 5, b2 = 4, k2 = 9 -> (-0,5; -0,5).
+    Random RundNum = new Random();
+    int k1 = RundNum.Next(-10, 11);
+    int b1 = RundNum.Next(-10, 11);
+    int k2 = RundNum.Next(-10, 11);
+    int b2 = RundNum.Next(-10, 11);
+    double CrossX;
+    double CrossY;
+
+    CrossX = Math.Round(Convert.ToDouble(b2 - b1) / Convert.ToDouble(k1 - k2),2);
+    CrossY = Math.Round(k1 * CrossX + b1,2);
+    Console.WriteLine($"({CrossX}, {CrossY}) - точка пересечения прямых, выраженных уравнениями: у={k1}*x+{b1} и у={k2}*x+{b2}");
+
+    Console.WriteLine("- - - - - - - Задача 43 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_6_Task_41() {
+          // Задача 4: Пользователь вводит с клавиатуры M чисел.
+          // Посчитайте, сколько чисел больше 0 ввёл пользователь.
+    int M = 5;
+    int NegativeNums = 0;
+    Console.WriteLine($"Введите {M} чисел:");
+    for(int i=1; i<=M; i++) {
+        Console.Write($"({i}):");
+        if (Convert.ToInt16(Console.ReadLine()) < 0) NegativeNums++;
+    }
+    Console.WriteLine($"Вы ввели {NegativeNums} отрицательных чисел.");
+
+    Console.WriteLine("- - - - - - - Задача D41 успешно выполнена! - - - - - - -\n");
+}
+
+/*          // Практическое задание к семинарам, урок 5 (29.09.22)
+// Seminar_5_Task_D03();
 // Seminar_5_Task_D02();
 // Seminar_5_Task_D01();
 // Seminar_5_Task_38();
@@ -181,7 +278,7 @@ static void Seminar_5_Task_34_PrintArray(int[] Mas) {
     for (int i=0; i<Mas.Length; i++) Console.Write(Mas[i] + "\t");
     Console.Write("\n");
 }
-
+*/
 /*          // Практическое задание к семинарам, урок 4 (26.09.22)
 // Seminar_4_Task_D03();
 // Seminar_4_Task_D02();
