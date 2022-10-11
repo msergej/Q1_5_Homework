@@ -1,6 +1,310 @@
 ﻿          // Выполнение практических задааний к семинарам
 
-          // Практическое задание к семинарам, урок 6 (03.10.22)
+          // Практическое задание к семинарам, урок 7 (06.10.22)
+Seminar_7_Task_D03();
+// Seminar_7_Task_D02();
+// Seminar_7_Task_D01();
+// Seminar_7_Task_52();
+// Seminar_7_Task_50();
+// Seminar_7_Task_47();
+
+static void Seminar_7_Task_D03() {
+          // Задача D03: Двумерный массив размером 5х5 заполнен случайными нулями и единицами.
+          // Игрок может ходить только по полям, заполненным единицами.
+          // Проверьте, существует ли путь из точки [0, 0] в точку [4, 4] (эти поля требуется принудительно задать равными единице).
+    Random RundNum = new Random();
+    int Rows = RundNum.Next(5, 6);
+    int Columns = RundNum.Next(5, 6);
+    int[,] Map = new int [Rows,Columns];
+    int i_max = Rows-1;
+    int j_max = Columns-1;
+    
+    Seminar_7_Task_D03_FillArray(Map);
+    Map[0,0] = 1;
+    Map[Rows-1, Columns-1] = 1;
+    Console.WriteLine("Карта лабирита:");
+    Seminar_7_Task_D03_PrintArray(Map);
+    Boolean Exit = false;
+    Seminar_7_Task_D03_FindPath(Map, 0, 0);
+    Console.WriteLine("Карта лабирита после попытки прохода:");
+    Seminar_7_Task_D03_PrintArray(Map);
+    if (Exit) Console.WriteLine("Выход из лабиринта есть!");
+       else Console.WriteLine("Выход из лабиринта не обнаружен...");
+
+    Console.WriteLine("- - - - - - - Задача D03 успешно выполнена! - - - - - - -\n");
+
+    void Seminar_7_Task_D03_FindPath(int[,] Map, int i, int j) {
+          // Задача D03. Подпрограмма поиска возможных следующих шагов (используя (8 вызовов) или нет (4 вызова) ходы по диагонали)
+    if(i<0 || j<0 || i>i_max || j>j_max || Map[i,j]==0 || Map[i,j]==2) return;
+    Map[i,j] = 2;
+    if(i==i_max && j==j_max) {
+            Exit = true;
+            return;
+    }
+    Seminar_7_Task_D03_FindPath(Map, i-1, j);
+    Seminar_7_Task_D03_FindPath(Map, i+1, j);
+    Seminar_7_Task_D03_FindPath(Map, i, j-1);
+    Seminar_7_Task_D03_FindPath(Map, i, j+1);
+    Seminar_7_Task_D03_FindPath(Map, i-1, j-1);
+    Seminar_7_Task_D03_FindPath(Map, i-1, j+1);
+    Seminar_7_Task_D03_FindPath(Map, i+1, j-1);
+    Seminar_7_Task_D03_FindPath(Map, i+1, j+1);
+    } 
+}
+static void Seminar_7_Task_D03_FillArray(int[,] Mas) {
+          // Задача D03. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(0,2);
+}
+static void Seminar_7_Task_D03_PrintArray(int[,] Mas) {
+          // Задача D03. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "  ");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_7_Task_D02() {
+          // Задача D02: Двумерный массив размером 3х4 заполнен числами от 100 до 9999.
+          // Найдите в этом массиве и сохраните в одномерный массив все числа, сумма цифр которых больше их произведения.
+          // Выведите оба массива.
+    Random RundNum = new Random();
+    int Rows = RundNum.Next(3, 4);
+    int Columns = RundNum.Next(4, 5);
+    int[,] Mas = new int [Rows,Columns];
+    int FoundNum = 0;
+
+    Seminar_7_Task_D02_FillArray(Mas);
+    Console.WriteLine("Исходный массив:");
+    Seminar_7_Task_D02_PrintArray(Mas);
+    for(int i=0; i<Rows; i++)
+        for(int j=0; j<Columns; j++)
+            if(Seminar_7_Task_D02_CheckElement(Mas[i,j])) FoundNum += 1;      
+    if (FoundNum > 0) {
+        int[] FoundNumMas = new int [FoundNum];
+        int k = 0;
+        for(int i=0; i<Rows; i++)
+            for(int j=0; j<Columns; j++)
+                if(Seminar_7_Task_D02_CheckElement(Mas[i,j])) {
+                    FoundNumMas[k] = Mas[i,j];          
+                    k++;
+                }
+        Console.WriteLine($"В массиве обнаружены числа ({FoundNum}), у которых сумма цифр равна их произведению:");
+        for(int i=0; i<FoundNum; i++) Console.Write(FoundNumMas[i] + ", ");    
+        Console.WriteLine(""); 
+    } 
+      else Console.WriteLine("В массиве не обнаружены числа, у которых сумма цифр равна их произведению.");
+
+    Console.WriteLine("- - - - - - - Задача D02 успешно выполнена! - - - - - - -\n");
+}
+static bool Seminar_7_Task_D02_CheckElement(int N) {
+          // Задача D03. Подпрограмма проверки числа на выполнениеусловия равенства суммы его цифр их произведению
+        int TmpI = N;  
+        int DigitSum = 0;
+        int DigitProduct = 1;
+        
+        while(TmpI > 0) {
+            DigitSum += Convert.ToInt16(TmpI % 10);
+            DigitProduct *= Convert.ToInt16(TmpI % 10);
+            TmpI /= 10;
+        }
+        if (DigitSum == DigitProduct) return true;
+          else return false;
+}
+static void Seminar_7_Task_D02_FillArray(int[,] Mas) {
+          // Задача D02. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(1123,1126);
+}
+static void Seminar_7_Task_D02_PrintArray(int[,] Mas) {
+          // Задача D02. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_7_Task_D01() {
+          // Задача D01: Даны две матрицы, количество строк и столбцов которых может быть 3 или 4, заполнены числами от -9 до 9. 
+          // Выполните умножение матриц.
+    Random RundNum = new Random();
+    int RowsA = RundNum.Next(3, 5);
+    int RowsB = RundNum.Next(3, 5);
+    int[,] MasA = new int [RowsA,RowsB];
+    int[,] MasB = new int [RowsB,RowsA];
+    int[,] MasProduct = new int [Math.Max(RowsA,RowsB),Math.Max(RowsA,RowsB)];
+
+    Seminar_7_Task_D01_FillArray(MasA);
+    Seminar_7_Task_D01_FillArray(MasB);
+    Console.WriteLine("Массив А:");
+    Seminar_7_Task_D01_PrintArray(MasA);
+    Console.WriteLine("Массив B:");
+    Seminar_7_Task_D01_PrintArray(MasB);
+    if (RowsA >= RowsB) { 
+        Seminar_7_Task_D01_ArrayMultiplication(MasA, MasB, MasProduct);
+        Console.WriteLine("Произведение массивов А и B:");
+    } else { 
+          Seminar_7_Task_D01_ArrayMultiplication(MasB, MasA, MasProduct);
+          Console.WriteLine("Возможно только произведение массивов B и A:");
+      }
+    Seminar_7_Task_D01_PrintArray(MasProduct);
+
+    Console.WriteLine("- - - - - - - Задача D01 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_7_Task_D01_ArrayMultiplication(int[,] Mas1, int[,] Mas2, int[,] MasProduct) {
+          // Задача D01. Подпрограмма перемножения массивов
+    int MasProductCell;
+
+    for(int i=0; i<MasProduct.GetLength(0); i++)
+        for(int j=0; j<MasProduct.GetLength(1); j++) {
+            MasProductCell = 0;
+            for(int k=0; k<Mas1.GetLength(1); k++) MasProductCell += Mas1[i,k] * Mas2[k,j];
+            MasProduct[i,j] = MasProductCell;    
+        }
+}
+static void Seminar_7_Task_D01_FillArray(int[,] Mas) {
+          // Задача D01. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(-9,10);
+}
+static void Seminar_7_Task_D01_PrintArray(int[,] Mas) {
+          // Задача D01. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_7_Task_52() {
+          // Задача 52: Задайте двумерный массив из целых чисел. Найдите среднее арифметическое элементов в каждом столбце.
+    Random RundNum = new Random();
+    int M = RundNum.Next(4, 8);
+    int N = RundNum.Next(4, 8);
+    int[,] Mas = new int [M,N];
+
+    Seminar_7_Task_52_FillArray(Mas);
+    Seminar_7_Task_52_PrintArray(Mas);
+    Console.Write($"Среднее арифметическое столбцов: ");
+    for(int j=0; j<N; j++) Console.Write(Seminar_7_Task_52_ArrayColumnAvg(Mas,j) + ", ");
+    Console.WriteLine();
+
+    Console.WriteLine("- - - - - - - Задача 52 успешно выполнена! - - - - - - -\n");
+}
+static double Seminar_7_Task_52_ArrayColumnAvg(int[,] Mas, int j) {
+          // Задача 52. Подпрограмма расчета среднего арифметического в заданном столбцее массива
+    int Rows = Mas.GetLength(0);
+    double ColumnSum = 0;
+
+    for(int i=0; i<Rows; i++) 
+        ColumnSum += Mas[i,j];    
+    return Math.Round(Convert.ToDouble(ColumnSum)/Rows,1);
+}
+static void Seminar_7_Task_52_FillArray(int[,] Mas) {
+          // Задача 52. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(-100,101);
+}
+static void Seminar_7_Task_52_PrintArray(int[,] Mas) {
+          // Задача 52. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_7_Task_50() {
+          // Задача 50: Напишите программу, которая на вход принимает индексы элемента в двумерном массиве,
+          // и возвращает значение этого элемента или же указание, что такого элемента нет.
+    Random RundNum = new Random();
+    int M = RundNum.Next(4, 8);
+    int N = RundNum.Next(4, 8);
+    int[,] Mas = new int [M,N];
+    int Row = RundNum.Next(1, 11);
+    int Column = RundNum.Next(1, 11);
+
+    Seminar_7_Task_50_FillArray(Mas);
+    Seminar_7_Task_50_PrintArray(Mas);
+    if ((Row <= M) & (Column <= N)) Console.WriteLine($"Элемент массива ({Row},{Column}): {Mas[Row-1, Column-1]}.");
+      else Console.WriteLine($"Массив не включает в себя элемент ({Row},{Column}).");
+
+    Console.WriteLine("- - - - - - - Задача 50 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_7_Task_50_FillArray(int[,] Mas) {
+          // Задача 50. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(-100,101);
+}
+static void Seminar_7_Task_50_PrintArray(int[,] Mas) {
+          // Задача 50. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_7_Task_47() {
+          // Задача 47: Задайте двумерный массив размером M×N, заполненный случайными вещественными числами, округлёнными до одного знака.
+    Random RundNum = new Random();
+    int M = RundNum.Next(4, 8);
+    int N = RundNum.Next(4, 8);
+    double[,] Mas = new double [M,N];
+    
+    Seminar_7_Task_47_FillArray(Mas);
+    Seminar_7_Task_47_PrintArray(Mas);
+
+    Console.WriteLine("- - - - - - - Задача 47 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_7_Task_47_FillArray(double[,] Mas) {
+          // Задача 47. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = Convert.ToDouble(RundNum.Next(-100,101))/10;
+}
+static void Seminar_7_Task_47_PrintArray(double[,] Mas) {
+          // Задача 47. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+
+/*          // Практическое задание к семинарам, урок 6 (03.10.22)
 Seminar_6_Task_D03();
 // Seminar_6_Task_D02();
 // Seminar_6_Task_D01();
@@ -96,7 +400,7 @@ static void Seminar_6_Task_41() {
 
     Console.WriteLine("- - - - - - - Задача D41 успешно выполнена! - - - - - - -\n");
 }
-
+*/
 /*          // Практическое задание к семинарам, урок 5 (29.09.22)
 // Seminar_5_Task_D03();
 // Seminar_5_Task_D02();
@@ -488,7 +792,7 @@ static void Seminar_4_Task_25() {
     Console.WriteLine("- - - - - - - Задача 25 успешно выполнена! - - - - - - -\n");
 }
 */
-/*          // Практическое задание к семинарам, урок 3 (22.09.22)
+/*         // Практическое задание к семинарам, урок 3 (22.09.22)
 // Seminar_3_Task_DS02_03();
 // Seminar_3_Task_DS01();
 // Seminar_3_Task_D04();
