@@ -1,6 +1,389 @@
 ﻿          // Выполнение практических задааний к семинарам
 
-          // Практическое задание к семинарам, урок 7 (06.10.22)
+          // Практическое задание к семинарам, урок 8 (10.10.22)
+Seminar_8_Task_D04();
+//Seminar_8_Task_D03();
+// Seminar_8_Task_D02();
+// Seminar_8_Task_D01();
+// Seminar_8_Task_58();
+// Seminar_8_Task_56();
+// Seminar_8_Task_54();
+
+static void Seminar_8_Task_D04() {
+          // Задача D04: Заполните двумерный массив 3х3 числами от 1 до 9 змейкой.
+    Random RundNum = new Random();
+    int Rows = RundNum.Next(4, 8);
+    int Columns = RundNum.Next(4, 8);
+    int[,] Mas = new int [Rows,Columns];
+
+    Seminar_8_Task_D04_FillArray(Mas);
+    Console.WriteLine("Исходный массив:");
+    Seminar_8_Task_D04_PrintArray(Mas);
+    for(int i=0; i<Rows; i++)
+        if (i%2 == 0) for(int j=0; j<Columns; j++) Mas[i,j] = (i*Columns + j) + 1;
+          else for(int j=0; j<Columns; j++) Mas[i,j] = (i+1)*Columns-j;
+    Console.WriteLine("Массив после заполнения:");
+    Seminar_8_Task_D04_PrintArray(Mas);
+
+    Console.WriteLine("\n- - - - - - - Задача D04 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_8_Task_D04_FillArray(int[,] Mas) {
+          // Задача D04. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(0,1);
+}
+static void Seminar_8_Task_D04_PrintArray(int[,] Mas) {
+          // Задача D04. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_8_Task_D03() {
+          // Задача D03: Найти минимальный по модулю элемент.
+          // Все столбцы и строки, содержащие элементы, равные по модулю минимальному.
+    Random RundNum = new Random();
+    int Rows = RundNum.Next(4, 8);
+    int Columns = RundNum.Next(4, 8);
+    int[,] Mas = new int [Rows,Columns];
+    Dictionary<int, string> AbsMinNums = new Dictionary<int, string>();
+    int AbsMinNum = 1000000000;
+    int AbsMinNumsFound = 0;
+
+    Seminar_8_Task_D03_FillArray(Mas);
+    Console.WriteLine("Исходный массив:");
+    Seminar_8_Task_D03_PrintArray(Mas);
+    for(int i=0; i<Rows; i++)
+        for(int j=0; j<Columns; j++)
+            if (Math.Abs(Mas[i,j]) < AbsMinNum) AbsMinNum = Math.Abs(Mas[i,j]);
+    for(int i=0; i<Rows; i++)
+        for(int j=0; j<Columns; j++)
+            if (Math.Abs(Mas[i,j]) == AbsMinNum) {
+                AbsMinNumsFound++;
+                AbsMinNums.Add(AbsMinNumsFound, "(" + (i+1) + "," + (j+1) + ")");
+            }
+    Console.WriteLine($"Найдены {AbsMinNumsFound} минимальных по модулю ({AbsMinNum} или {-AbsMinNum}) элементов в массиве:");
+    foreach (var (key, value) in AbsMinNums) Console.Write(key + ": " + value + ",  ");
+
+    Console.WriteLine("\n- - - - - - - Задача D03 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_8_Task_D03_FillArray(int[,] Mas) {
+          // Задача D03. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(-9,10);
+}
+static void Seminar_8_Task_D03_PrintArray(int[,] Mas) {
+          // Задача D03. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_8_Task_D02() {
+          // Задача D02: Дан двумерный массив, заполненный случайными числами от -9 до 9.
+          // Подсчитать частоту вхождения каждого числа в массив, используя словарь.
+    Random RundNum = new Random();
+    int Rows = RundNum.Next(4, 8);
+    int Columns = RundNum.Next(4, 8);
+    int[,] Mas = new int [Rows,Columns];
+    Dictionary<int, int> NumsFrequencies = new Dictionary<int, int>();
+    int NumsFound = 0;
+
+    Seminar_8_Task_D02_FillArray(Mas);
+    Console.WriteLine("Исходный массив:");
+    Seminar_8_Task_D02_PrintArray(Mas);
+    for(int i=0; i<Rows; i++)
+        for(int j=0; j<Columns; j++)
+            if (!NumsFrequencies.ContainsKey(Mas[i,j])) {
+                NumsFrequencies.Add(Mas[i,j], 1);
+                NumsFound++;
+            }
+              else {
+                  NumsFrequencies[Mas[i,j]]++; 
+                  NumsFound++;                    
+              }
+    Console.WriteLine("В массиве находятся следующие значения:");
+    foreach (var (key, value) in NumsFrequencies) Console.Write(key + ": " + value + ",  ");
+
+    Console.WriteLine("\n- - - - - - - Задача D02 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_8_Task_D02_FillArray(int[,] Mas) {
+          // Задача D02. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(-9,10);
+}
+static void Seminar_8_Task_D02_PrintArray(int[,] Mas) {
+          // Задача D02. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_8_Task_D01() {
+          // Задача D01: Дан двумерный массив. Заменить в нём элементы первой строки элементами главной диагонали.
+          // А элементы последней строки, элементами побочной диагонали.
+    Random RundNum = new Random();
+    int Rows = RundNum.Next(4, 8);
+    int Columns = RundNum.Next(4, 8);
+    int[,] Mas = new int [Rows,Columns];
+    int Tmp;
+
+    Seminar_8_Task_D01_FillArray(Mas);
+    Console.WriteLine("Исходный массив:");
+    Seminar_8_Task_D01_PrintArray(Mas);
+    if (Rows==Columns) {
+        Tmp = Mas[0,Columns-1];
+        Mas[0,Columns-1] = Mas[Rows-1,Columns-1];
+        Mas[Rows-1,Columns-1] = Tmp;
+        for(int i=1; i<Rows-1; i++) {
+            Mas[0,i] = Mas[i,i];
+            Mas[Columns-1,i] = Mas[Columns-1-i,i];
+        }
+    }
+      else if (Rows<Columns) {
+               Mas[0,Rows-1] = Mas[Rows-1,Rows-1];
+               Mas[Rows-1,Columns-1] = Mas[0,Columns-1];
+               for(int i=1; i<Rows-1; i++) {
+                   Mas[0,i] = Mas[i,i];
+                   Mas[Rows-1,i+(Columns-Rows)] = Mas[Rows-1-i,i+(Columns-Rows)];
+               }
+            }
+              else {
+                  Mas[Rows-1,0] = Mas[Columns-1,0];
+                  Mas[Rows-1,Columns-1] = Mas[0,Columns-1];
+                  Mas[0,Columns-1] = Mas[Columns-1,Columns-1];
+                  for(int i=1; i<Columns-1; i++) {
+                      Mas[0,i] = Mas[i,i];
+                      Mas[Rows-1,i] = Mas[Rows-1-i-(Rows-Columns),i];
+                  }
+              }
+    Console.WriteLine("Массив после присвоений:");
+    Seminar_8_Task_D01_PrintArray(Mas);
+
+    Console.WriteLine("- - - - - - - Задача D01 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_8_Task_D01_FillArray(int[,] Mas) {
+          // Задача D01. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(-99,100);
+}
+static void Seminar_8_Task_D01_PrintArray(int[,] Mas) {
+          // Задача D01. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_8_Task_58() {
+          // Задача 58: Напишите программу, которая заполнит спирально массив 4 на 4, используя только один цикл.
+    Random RundNum = new Random();
+    int Rows = RundNum.Next(4, 8);
+    int Columns = RundNum.Next(4, 8);
+    int[,] Mas = new int [Rows,Columns];
+    
+    Seminar_8_Task_58_FillArray(Mas);
+    Mas[0,0] = 1;
+    Console.WriteLine("Массив для заполнения:");
+    Seminar_8_Task_58_PrintArray(Mas);
+    int CellesFilled = 2;
+    int k = 0;
+    int l = 0;
+    while (CellesFilled <= Rows*Columns)
+          // Выбор правильного направления, передвижение и заполнение элемента (вправо, вниз, влево, вверх)
+        if (Seminar_8_Task_58_ArrayDirection(Mas, k, l+1, k, l)) {
+            Mas[k,l+1] = CellesFilled;
+            CellesFilled++;
+            l+=1;
+        }
+          else if (Seminar_8_Task_58_ArrayDirection(Mas, k+1, l, k, l)) {
+                   Mas[k+1,l] = CellesFilled;
+                   CellesFilled++;
+                   k+=1;     
+               }
+                 else if (Seminar_8_Task_58_ArrayDirection(Mas, k, l-1, k, l)) {
+                          Mas[k,l-1] = CellesFilled;
+                          CellesFilled++;
+                          l-=1;     
+                      }
+                        else if (Seminar_8_Task_58_ArrayDirection(Mas, k-1, l, k, l)) {
+                                 Mas[k-1,l] = CellesFilled;
+                                 CellesFilled++;
+                                 k-=1;     
+                              }        
+    Console.WriteLine("Массив заполнен:");
+    Seminar_8_Task_58_PrintArray(Mas);
+    
+    Console.WriteLine("- - - - - - - Задача 58 успешно выполнена! - - - - - - -\n");
+}
+static bool Seminar_8_Task_58_ArrayDirection(int[,] Mas, int i, int j, int prev_i, int prev_j) {
+          // Задача 58. Подпрограмма определения направления движения в массиве
+    int Rows = Mas.GetLength(0);
+    int Columns = Mas.GetLength(1);
+    bool Result = false;
+          // Элемент нулевой и на краю массива. Правильное направление: впереди 0, слева край массива.
+    if (((i==0) | (j==0) | (i==Rows-1) | (j==Columns-1)) & (i>=0) & (i<Rows) & (j>=0) & (j<Columns)) 
+        if (Mas[i,j] == 0)
+            if ((i==prev_i) & ((prev_j+1) == j) & (i==0)) Result = true; 
+              else if ((i==prev_i) & ((prev_j-1) == j) & (i==Rows-1)) Result = true;     
+                     else if ((j==prev_j) & ((prev_i-1) == i) & (j==0)) Result = true;
+                            else if ((j==prev_j) & ((prev_i+1) == i) & (j==Columns-1)) Result = true;
+
+          // Элемент нулевой и НЕ с краю массива. Правильное направление: впереди 0 и слева от него число больше 0.
+    if ((i!=0) & (j!=0) & (i!=Rows-1) & (j!=Columns-1) & (i>=0) & (i<Rows) & (j>=0) & (j<Columns))
+        if (Mas[i,j] == 0)
+            if ((i==prev_i) & ((prev_j+1) == j) & (Mas[i-1,j]>0)) Result = true; 
+              else if ((i==prev_i) & ((prev_j-1) == j) & (Mas[i+1,j]>0)) Result = true;     
+                     else if ((j==prev_j) & ((prev_i-1) == i) & (Mas[i,j-1]>0)) Result = true;
+                            else if ((j==prev_j) & ((prev_i+1) == i) & (Mas[i,j+1]>0)) Result = true;
+    return Result;        
+}
+static void Seminar_8_Task_58_FillArray(int[,] Mas) {
+          // Задача 58. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(0,1);
+}
+static void Seminar_8_Task_58_PrintArray(int[,] Mas) {
+          // Задача 58. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_8_Task_56() {
+          // Задача 56: Задайте прямоугольный двумерный массив.
+          // Напишите программу, которая будет находить строку с наименьшей суммой элементов.
+    Random RundNum = new Random();
+    int M = RundNum.Next(4, 8);
+    int N = RundNum.Next(4, 8);
+    int[,] Mas = new int [M,N];
+    
+    Seminar_8_Task_56_FillArray(Mas);
+    Seminar_8_Task_56_PrintArray(Mas);
+    long MinRowSum = Seminar_8_Task_56_ArrayRowSum(Mas, 0);
+    int IndexOfMinSumRow = 0;
+    for(int i=1; i<M; i++) 
+        if(Seminar_8_Task_56_ArrayRowSum(Mas,i) < MinRowSum) {
+            MinRowSum = Seminar_8_Task_56_ArrayRowSum(Mas,i);
+            IndexOfMinSumRow = i;
+        };
+    Console.WriteLine($"В строке {IndexOfMinSumRow+1} сумма элементов мимальна: {MinRowSum}.");
+
+    Console.WriteLine("- - - - - - - Задача 56 успешно выполнена! - - - - - - -\n");
+}
+static long Seminar_8_Task_56_ArrayRowSum(int[,] Mas, int i) {
+          // Задача 56. Подпрограмма расчета суммы элементов в заданной строке массива
+    int Columns = Mas.GetLength(1);
+    long RowSum = 0;
+
+    for(int j=0; j<Columns; j++) 
+        RowSum += Mas[i,j];    
+    return RowSum;
+}
+static void Seminar_8_Task_56_FillArray(int[,] Mas) {
+          // Задача 56. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(-100,101);
+}
+static void Seminar_8_Task_56_PrintArray(int[,] Mas) {
+          // Задача 56. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+static void Seminar_8_Task_54() {
+          // Задача 54: Задайте двумерный массив. Напишите программу,
+          // которая упорядочит по убыванию элементы каждой строки двумерного массива.
+    Random RundNum = new Random();
+    int M = RundNum.Next(4, 8);
+    int N = RundNum.Next(4, 8);
+    int[,] Mas = new int [M,N];
+
+    Seminar_8_Task_54_FillArray(Mas);
+    Console.WriteLine("Исходный массив:");
+    Seminar_8_Task_54_PrintArray(Mas);
+    for(int i=0; i<M; i++) Seminar_8_Task_54_ArrayRowSort(Mas,i);
+    Console.WriteLine("Массив с упорядоченными по убыванию строками:");
+    Seminar_8_Task_54_PrintArray(Mas);
+
+    Console.WriteLine("- - - - - - - Задача 54 успешно выполнена! - - - - - - -\n");
+}
+static void Seminar_8_Task_54_ArrayRowSort(int[,] Mas, int Row) {
+          // Задача 54. Подпрограмма упорядочивания элементов по убыванию в заданной строке массива
+    int Columns = Mas.GetLength(1);
+    int Tmp;
+
+    for(int j=0; j<Columns; j++)
+        for(int k=j+1; k<Columns; k++)
+            if(Mas[Row,k] > Mas[Row,j]) {
+                Tmp = Mas[Row,j];
+                Mas[Row,j] = Mas[Row,k];
+                Mas[Row,k] =Tmp;      
+            }
+}
+static void Seminar_8_Task_54_FillArray(int[,] Mas) {
+          // Задача 54. Подпрограмма заполнения массива
+    Random RundNum = new Random();
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+
+    for(int i=0; i<rows; i++) 
+        for(int j=0; j<columns; j++) Mas[i,j] = RundNum.Next(-100,101);
+}
+static void Seminar_8_Task_54_PrintArray(int[,] Mas) {
+          // Задача 54. Подпрограмма печати массива
+    int rows = Mas.GetLength(0);
+    int columns = Mas.GetLength(1);
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<columns; j++) Console.Write(Mas[i,j] + "\t");    
+        Console.WriteLine(""); 
+    }
+}
+
+/*          // Практическое задание к семинарам, урок 7 (06.10.22)
 Seminar_7_Task_D03();
 // Seminar_7_Task_D02();
 // Seminar_7_Task_D01();
@@ -104,7 +487,7 @@ static void Seminar_7_Task_D02() {
     Console.WriteLine("- - - - - - - Задача D02 успешно выполнена! - - - - - - -\n");
 }
 static bool Seminar_7_Task_D02_CheckElement(int N) {
-          // Задача D03. Подпрограмма проверки числа на выполнениеусловия равенства суммы его цифр их произведению
+          // Задача D03. Подпрограмма проверки числа на выполнение условия равенства суммы его цифр их произведению
         int TmpI = N;  
         int DigitSum = 0;
         int DigitProduct = 1;
@@ -303,7 +686,7 @@ static void Seminar_7_Task_47_PrintArray(double[,] Mas) {
         Console.WriteLine(""); 
     }
 }
-
+*/
 /*          // Практическое задание к семинарам, урок 6 (03.10.22)
 Seminar_6_Task_D03();
 // Seminar_6_Task_D02();
