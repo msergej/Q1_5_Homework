@@ -1,6 +1,151 @@
-﻿          // Выполнение практических задааний к семинарам
+﻿          // Выполнение практических заданий к семинарам
 
-          // Практическое задание к семинарам, урок 8 (10.10.22)
+          // Практическое задание к семинарам, урок 9 (13.10.22)
+Seminar_9_Task_D04();
+// Seminar_9_Task_D03();
+// Seminar_9_Task_D02();
+// Seminar_9_Task_D01();
+// Seminar_9_Task_68();
+// Seminar_9_Task_66();
+// Seminar_9_Task_64();
+
+static void Seminar_9_Task_D04() {
+          // Задача D04. Даны два числа a, b. Перемножьте их, используя только операции инкремента и декремента.
+    Random RundNum = new Random();
+    int A = RundNum.Next(-9,10);
+    int B = RundNum.Next(-9,10);
+    int Product = 0;
+
+    for(int i=1; i<=Math.Abs(A); i++)
+        for(int j=1; j<=Math.Abs(B); j++)
+            Product++;
+    if((A<0) ^ (B<0)) Product = -Product;
+    Console.WriteLine($"Произведение {A} и {B}: {Product}");
+
+    Console.WriteLine("- - - - - - - Задача D04 успешно выполнена! - - - - - - -\n");
+} 
+static void Seminar_9_Task_D03() {
+          // Задача D03. Даны два числа a, b. Сложите их, используя только операции инкремента и декремента.
+    Random RundNum = new Random();
+    int A = RundNum.Next(-9,10);
+    int B = RundNum.Next(-9,10);
+    int Sum = 0;
+
+    for (int i=1; i<=Math.Abs(A); i++)
+      if (A<0) Sum--;
+        else Sum++;
+    for (int i=1; i<=Math.Abs(B); i++)
+      if (B<0) Sum--;
+        else Sum++;
+    Console.WriteLine($"Сумма {A} и {B}: {Sum}");
+
+    Console.WriteLine("- - - - - - - Задача D03 успешно выполнена! - - - - - - -\n");
+} 
+static void Seminar_9_Task_D02() {
+          // Задача D02. Известно, что пароль длиной 3 символа состоит из латинских букв строчного регистра и цифр от 0 до 9.
+          // Напишите рекурсивный метод, который перебирает все комбинации паролей. 
+//    string Alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
+    string Alphabet = "0123456789abcde";
+          
+    int PasswordsGeneration(string Alphabet, int Current_3=0, int Current_2=0, int Current_1=0, int i=0) {
+        if ((Current_3 == Alphabet.Length-1) & (Current_2 == Alphabet.Length-1) & (Current_1 >= Alphabet.Length-1)) {
+            Console.Write($"{Alphabet[Current_3]}" + $"{Alphabet[Current_2]}" + $"{Alphabet[Current_1]}" + "\t");
+            if (i%21 == 20) Console.WriteLine();
+            return i;
+        }
+        Console.Write($"{Alphabet[Current_3]}" + $"{Alphabet[Current_2]}" + $"{Alphabet[Current_1]}" + "\t");
+        if (i%21 == 20) Console.WriteLine();
+        if ((Current_2 == Alphabet.Length-1) & (Current_1 == Alphabet.Length-1) & (Current_3 < Alphabet.Length-1)) {
+            Current_3++;
+            Current_2 = 0;
+            Current_1 = 0;
+        }    
+          else if ((Current_1 == Alphabet.Length-1) & (Current_3 <= Alphabet.Length-1) & (Current_2 < Alphabet.Length-1)) {
+                   Current_2++; 
+                   Current_1 = 0;
+               }
+                 else if ((Current_3 <= Alphabet.Length-1) & (Current_2 <= Alphabet.Length-1) & (Current_1 < Alphabet.Length-1)) Current_1++;        
+
+        i++;
+        return PasswordsGeneration(Alphabet, Current_3, Current_2, Current_1, i);
+    }
+    Console.WriteLine($"Все возможные 3-символьные пароли из символов '{Alphabet}':");
+    Console.WriteLine($"\nВозможные воличество паролей: {PasswordsGeneration(Alphabet, 0, 0, 0, 1)}\n");
+
+    Console.WriteLine("- - - - - - - Задача D02 успешно выполнена! - - - - - - -\n");
+} 
+static void Seminar_9_Task_D01() {
+          // Задача D01. Дано предложение. Напишите рекурсивный метод, подсчитывающий количество слов в данном предложении.
+          // Словом считается последовательность символов без пробелов.
+    string Sentence = "Это просто предложение, использованное для решения 1-й дополнительной задачи к 9-му уроку.";
+
+    int SentenceWordsCount(string SubSentence, int CurrentPosition) {
+        if (CurrentPosition >= SubSentence.Length) return 1;
+          else {
+//              Console.WriteLine($"вызов при {start} = \"{str[start]}\"");
+            //если текущий символ="пробел", а до него НЕ "пробел"
+            if (CurrentPosition > 0 && SubSentence[CurrentPosition] == ' ' && SubSentence[CurrentPosition - 1] != ' ') 
+                return SentenceWordsCount(SubSentence, CurrentPosition + 1) + 1;
+              else return SentenceWordsCount(SubSentence, CurrentPosition + 1);
+          }
+      }
+    Console.WriteLine($"В предложении '{Sentence}' имеется {SentenceWordsCount(Sentence, 0)} слов.");
+   
+    Console.WriteLine("- - - - - - - Задача D01 успешно выполнена! - - - - - - -\n");
+} 
+static void Seminar_9_Task_68() {
+          // Задача 68.  Даны два неотрицательных числа m и n. Напишите программу вычисления функции Аккермана с помощью рекурсии.
+    Random RundNum = new Random();
+    int M = RundNum.Next(1,4);
+    int N = RundNum.Next(1,6);
+
+    long AkkermanFunction(int M, int N) {
+        if (M == 0) return N + 1;
+          else if (M != 0 && N == 0) return AkkermanFunction(M-1, 1);
+                 else return AkkermanFunction(M-1, Convert.ToInt16(AkkermanFunction(M, N-1)));
+    }
+    Console.WriteLine($"Для чисел {M} и {N} значение функции Аккермана равно: {AkkermanFunction(M, N)}");
+   
+    Console.WriteLine("- - - - - - - Задача 68 успешно выполнена! - - - - - - -\n");
+} 
+static void Seminar_9_Task_66() {
+          // Задача 66. Задайте значения M и N.
+          // Напишите программу, которая найдёт сумму натуральных элементов в промежутке от M до N.
+    Random RundNum = new Random();
+    int M = RundNum.Next(100,500);
+    int N = RundNum.Next(500,1000);
+
+    long SumNaturalNums(int M, int N, long Sum) {
+        if (M == N) return Sum;
+        M++;
+        Sum += M; 
+        return SumNaturalNums(M, N, Sum);
+    }
+    Console.WriteLine($"Сумма чисел в промежутке ({M} -> {N}) равна: {SumNaturalNums(M, N, M)}");
+   
+    Console.WriteLine("- - - - - - - Задача 66 успешно выполнена! - - - - - - -\n");
+} 
+static void Seminar_9_Task_64() {
+          // Задача 63. Задайте значение N. Напишите программу, которая выведет все натуральные числа 
+          // в промежутке от N до 1. Выполнить с помощью рекурсии.
+    Random RundNum = new Random();
+    int N = RundNum.Next(1,1001);
+    int i = 0;
+   
+    FindNaturalNums(N, i);
+    void FindNaturalNums(int N, int i) {
+        N--;
+        i++;
+        Console.Write($"{N}" + "\t");
+        if (i%20 == 0) Console.WriteLine();
+        if (N <= 1) return; 
+        FindNaturalNums(N, i);
+    }
+
+    Console.WriteLine("\n- - - - - - - Задача 64 успешно выполнена! - - - - - - -\n");
+} 
+
+/*          // Практическое задание к семинарам, урок 8 (10.10.22)
 Seminar_8_Task_D04();
 //Seminar_8_Task_D03();
 // Seminar_8_Task_D02();
@@ -360,7 +505,7 @@ static void Seminar_8_Task_54_ArrayRowSort(int[,] Mas, int Row) {
             if(Mas[Row,k] > Mas[Row,j]) {
                 Tmp = Mas[Row,j];
                 Mas[Row,j] = Mas[Row,k];
-                Mas[Row,k] =Tmp;      
+                Mas[Row,k] = Tmp;      
             }
 }
 static void Seminar_8_Task_54_FillArray(int[,] Mas) {
@@ -382,7 +527,7 @@ static void Seminar_8_Task_54_PrintArray(int[,] Mas) {
         Console.WriteLine(""); 
     }
 }
-
+*/
 /*          // Практическое задание к семинарам, урок 7 (06.10.22)
 Seminar_7_Task_D03();
 // Seminar_7_Task_D02();
